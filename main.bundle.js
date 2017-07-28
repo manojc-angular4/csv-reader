@@ -21,7 +21,7 @@ module.exports = module.exports.toString();
 /***/ 135:
 /***/ (function(module, exports) {
 
-module.exports = "<h1>\n    {{title}}\n</h1>\n\n<div class=\"container\">\n    <div class=\"alert success\" [style.display]=\"isCopied ? 'block' : 'none'\">\n        <span class=\"closebtn\" (click)=\"isCopied = false;\">&times;</span> JSON is copied on the clipboard!\n    </div>\n    <div class=\"file-container\">\n        <input type=\"file\" id=\"file\" #file (change)=\"readFile(file)\">\n        <input type=\"button\" class=\"danger\" value=\"clear JSON\" [disabled]=\"!isConverted\" (click)=\"clear(file)\">\n        <!-- <input type=\"button\" class=\"primary\" value=\"copy JSON\" [disabled]=\"!isConverted\" (click)=\"copy()\"> -->\n    </div>\n    <div class=\"json-container\">\n        <pre id=\"jsonViewer\" *ngIf=\"response\">{{response | json}}</pre>\n        <input id=\"hiddenTxt\" type=\"text\" style=\"display:none;\">\n    </div>\n</div>"
+module.exports = "<h1>\n    {{title}}\n</h1>\n\n<div class=\"container\">\n    <div class=\"alert\" [class]=\"success ? 'alert success': 'alert danger'\" [style.display]=\"showAlert ? 'block' : 'none'\">\n        <span class=\"closebtn\" (click)=\"showAlert = false;\">&times;</span> {{message}}\n    </div>\n    <div class=\"file-container\">\n        <input type=\"file\" id=\"file\" #file (change)=\"readFile(file)\">\n        <input type=\"button\" class=\"danger\" value=\"clear JSON\" [disabled]=\"!isConverted\" (click)=\"clear(file)\">\n        <!-- <input type=\"button\" class=\"primary\" value=\"copy JSON\" [disabled]=\"!isConverted\" (click)=\"copy()\"> -->\n    </div>\n    <div class=\"json-container\">\n        <pre id=\"jsonViewer\" *ngIf=\"response\">{{response | json}}</pre>\n        <input id=\"hiddenTxt\" type=\"text\" style=\"display:none;\">\n    </div>\n</div>"
 
 /***/ }),
 
@@ -89,11 +89,19 @@ var AppComponent = (function () {
         this._ElementRef = _ElementRef;
         this.title = 'Angular 2/4 CSV to JSON converter';
         this.response = "Select the file to display JSON data...";
-        this.isCopied = false;
+        this.showAlert = false;
+        this.success = false;
+        this.message = "JSON is copied on the clipboard!";
         this.isConverted = false;
     }
-    AppComponent.prototype.readFile = function (file) {
-        file = file.files[0];
+    AppComponent.prototype.readFile = function (fileInput) {
+        var file = fileInput.files[0];
+        var extension = file.name.split('.').pop();
+        if (!extension || extension.toLowerCase() !== 'csv') {
+            this.setLoader("Invalid file with extension '" + extension + "'", true, false);
+            this.clear(fileInput);
+            return;
+        }
         var reader = new FileReader();
         reader.readAsText(file, "UTF-8");
         reader.onload = this.convertFile.bind(this);
@@ -112,6 +120,7 @@ var AppComponent = (function () {
         }
         this.isConverted = true;
         this.response = result;
+        this.setLoader('File converted successfully!', true, true);
     };
     AppComponent.prototype.copy = function () {
         var json = this._ElementRef.nativeElement.querySelector('#jsonViewer').innerHTML;
@@ -119,12 +128,22 @@ var AppComponent = (function () {
         el.value = json;
         el.select();
         document.execCommand("copy");
-        this.isCopied = true;
+        this.setLoader('JSON is copied on the clipboard!', true, true);
     };
     AppComponent.prototype.clear = function (file) {
         file.value = "";
         this.response = "Select the file to display JSON data...";
         this.isConverted = false;
+    };
+    AppComponent.prototype.setLoader = function (message, showAlert, success) {
+        this.message = message;
+        this.showAlert = showAlert;
+        this.success = success;
+        if (showAlert) {
+            setTimeout(function () {
+                this.showAlert = false;
+            }.bind(this), 5000);
+        }
     };
     return AppComponent;
 }());

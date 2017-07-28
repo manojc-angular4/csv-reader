@@ -8,7 +8,7 @@ exports = module.exports = __webpack_require__(45)(false);
 
 
 // module
-exports.push([module.i, "body {\n    background-color: palegoldenrod; \n    font-family: 'Oswald', sans-serif;\n}", ""]);
+exports.push([module.i, "body {\n    background-color: #d8fbdd; \n    font-family: 'Oswald', sans-serif;\n}", ""]);
 
 // exports
 
