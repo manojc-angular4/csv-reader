@@ -1,0 +1,88 @@
+h1 {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.container {
+    left: 10%;
+    width: 80%;
+    min-width: 1000px;
+    height: 600px;
+    margin: auto;
+}
+
+.file-container {
+    height: 10%;
+}
+
+.json-container {
+    height: 90%;
+    padding-left: 20px;
+    overflow-y: auto;
+    background-color: black;
+    font-size: 1.5rem;
+    color: white;
+    margin-top: 20px;
+}
+
+input[type=file] {
+	outline: 1px dotted #000;
+	outline: -webkit-focus-ring-color auto 5px;
+    font-size: 1.5rem;
+    padding: 10px;
+    background-color: white;
+    cursor: pointer;
+}
+
+input[type=file]:focus, input[type=file]:hover {
+    background-color: #edf0f3;
+}
+
+input[type=button] {
+    float: right;
+    margin-left: 20px;
+    font-size: 1.5rem;
+    color: white;
+    padding: 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+input[type=button]:disabled {
+    background: gray;
+    cursor: default;
+}
+
+.success {
+    background-color: #4CAF50;
+}
+
+.primary {
+    background-color: #008CBA;
+}
+
+.danger {
+    background-color: #f44336;
+}
+
+.alert {
+    margin-bottom: 20px;
+    padding: 20px;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 1.5rem;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
+}
