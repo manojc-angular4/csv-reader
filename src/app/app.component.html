@@ -3,8 +3,8 @@
 </h1>
 
 <div class="container">
-    <div class="alert success" [style.display]="isCopied ? 'block' : 'none'">
-        <span class="closebtn" (click)="isCopied = false;">&times;</span> JSON is copied on the clipboard!
+    <div class="alert" [class]="success ? 'alert success': 'alert danger'" [style.display]="showAlert ? 'block' : 'none'">
+        <span class="closebtn" (click)="showAlert = false;">&times;</span> {{message}}
     </div>
     <div class="file-container">
         <input type="file" id="file" #file (change)="readFile(file)">
